@@ -7,8 +7,6 @@ from datasets import Dataset
 import pandas as pd
 from tqdm.auto import tqdm
 
-# 💡 [수정] retrieval_hybrid_passage 모듈에서
-# Alpha-가중치 기반(HybridRetrieval) 대신 RRF 기반 클래스를 가져옵니다.
 from retrieval.retrieval_hybrid_passage import HybridRetrievalRRF as RRFHybridRetrieval 
 
 import torch
@@ -32,7 +30,7 @@ class HybridRetrievalRerankRRF(RRFHybridRetrieval):
         rerank_model_name: str = "Dongjin-kr/ko-reranker", 
         rerank_candidate_k: int = 20,   # RRF Hybrid에서 먼저 뽑을 개수
         device: str = None,
-        rerank_batch_size: int = 4,    # 💡 [추가] Qwen 모델을 위한 배치 사이즈 설정
+        rerank_batch_size: int = 4,    
         **kwargs,
     ):
         # super() 호출 시 RRFHybridRetrieval의 __init__이 실행되므로, 
