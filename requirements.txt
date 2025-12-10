@@ -1,0 +1,23 @@
+# Core dependencies
+torch>=2.0.0
+transformers>=4.30.0
+datasets>=2.14.0
+evaluate>=0.4.0
+
+# Retrieval
+rank-bm25
+sentence-transformers
+faiss-cpu
+
+# Korean NLP
+python-mecab-ko==1.3.7
+
+# Utilities
+pandas
+numpy
+tqdm
+scikit-learn
+
+# Development
+pytest
+black
