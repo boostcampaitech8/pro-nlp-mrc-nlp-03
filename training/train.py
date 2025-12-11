@@ -6,10 +6,14 @@ import numpy as np
 import torch
 import evaluate
 from typing import NoReturn
+from pathlib import Path
 
-from .arguments import DataTrainingArguments, ModelArguments
+# Add parent directory to path for imports
+sys.path.append(str(Path(__file__).parent.parent))
+
+from training.arguments import DataTrainingArguments, ModelArguments
 from datasets import DatasetDict, load_from_disk
-from .trainer_qa import QuestionAnsweringTrainer
+from training.trainer_qa import QuestionAnsweringTrainer
 from transformers import (
     AutoConfig,
     AutoModelForQuestionAnswering,
@@ -20,7 +24,7 @@ from transformers import (
     TrainingArguments,
     set_seed,
 )
-from .utils_qa import check_no_error, postprocess_qa_predictions
+from training.utils_qa import check_no_error, postprocess_qa_predictions
 
 
 seed = 2025
