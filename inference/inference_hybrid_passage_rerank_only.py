@@ -97,7 +97,7 @@ def run_hybrid_retrieval_passage_rerank(
     datasets: DatasetDict,
     training_args: TrainingArguments,
     data_args: DataTrainingArguments,
-    data_path: str = "/data/ephemeral/home/yunhui/data/",
+    data_path: str =  "../../data/",
     context_path: str = "wikipedia_passages_256_128.json",
 ) -> DatasetDict:
 
