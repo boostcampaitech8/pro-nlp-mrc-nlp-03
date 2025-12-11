@@ -7,6 +7,11 @@ import logging
 import sys
 from typing import Callable, Dict, List, NoReturn, Tuple
 
+from pathlib import Path
+
+# Add parent directory to path for imports
+sys.path.append(str(Path(__file__).parent.parent))
+
 import evaluate
 import numpy as np
 from training.arguments import DataTrainingArguments, ModelArguments
