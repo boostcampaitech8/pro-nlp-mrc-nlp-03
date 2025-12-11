@@ -52,11 +52,6 @@ wandb/
 *.swo
 *~
 
-# Jupyter
-.ipynb_checkpoints/
-*.ipynb
-!data_preparation/data_scheduling_with_negative_sampling_curriculum.ipynb
-
 # OS
 .DS_Store
 Thumbs.db
