@@ -64,7 +64,9 @@ pip install -r requirements.txt
 ## 사용법
 
 ### 0) Wikipedia documents → passage corpus 생성
+```bash
 python data_preparation/build_passages.py
+```
 
 ### 1. Negative Passage 데이터셋 생성
 
@@ -201,5 +203,6 @@ MIT License
 
 - [KorQuAD 1.0](https://korquad.github.io/)
 - [KLUE Benchmark](https://klue-benchmark.com/)
+
 
 
