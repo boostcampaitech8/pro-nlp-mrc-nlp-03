@@ -8,7 +8,7 @@
 
 ### 주요 특징
 
-- **Passage Indexing**: Wikipedia 문서를 Dense Encoder(BAAI/bge-m3) 토크나이저 기준 256 token / stride 128로 chunking하여 passage 단위로 인덱싱
+- **Passage Indexing**: Wikipedia 문서를 Dense Encoder (BAAI/bge-m3) 토크나이저 기준 256 token / stride 128로 chunking하여 passage 단위로 인덱싱
 - **Hybrid Retrieval**: BM25 + Dense Retrieval (BAAI/bge-m3) + Cross-Encoder Rerank
 - **Negative Passage Training**: 정답이 포함되지 않은 passage를 함께 학습하여 모델 강건성 향상
 - **Curriculum Learning**: Easy → Medium → Hard 단계별 학습
@@ -63,7 +63,7 @@ pip install -r requirements.txt
 
 ## 사용법
 
-### 0) Wikipedia documents → passage corpus 생성
+### 0. Wikipedia documents → passage corpus 생성
 ```bash
 python data_preparation/build_passages.py
 ```
@@ -201,6 +201,7 @@ MIT License
 
 - [KorQuAD 1.0](https://korquad.github.io/)
 - [KLUE Benchmark](https://klue-benchmark.com/)
+
 
 
 
