@@ -12,6 +12,7 @@
 - **Negative Passage Training**: 정답이 포함되지 않은 passage를 함께 학습하여 모델 강건성 향상
 - **Curriculum Learning**: Easy → Medium → Hard 단계별 학습
 - **Position Bias 제거**: Passage 순서 랜덤화
+- **Ensemble Voting**: Hard/Soft Voting을 통한 다중 모델 앙상블 지원
 
 ### 성능
 
@@ -44,6 +45,8 @@ korean-mrc-negative-passage/
 │   ├── inference.py
 │   ├── inference_bm25.py
 │   └── inference_hybrid_passage_rerank_only.py
+├── ensemble/                  # 앙상블 모듈
+│   └── ensemble_voting.ipynb
 ├── scripts/                   # 실행 스크립트
 │   └── create_negative_passage.sh
 └── analysis/                  # 분석 도구
@@ -147,12 +150,32 @@ python -m inference.inference_hybrid_passage_rerank_only \
     --output_dir ../outputs/predictions
 ```
 
-## 주요 개선 사항 (v3)
+### 4. 앙상블 (Ensemble Voting)
 
+여러 모델의 예측 결과를 앙상블하여 성능을 향상시킬 수 있습니다.
+
+**Hard Voting**: 다수결 투표 방식으로 가장 많이 예측된 답변을 선택합니다.
+
+**Soft Voting**: 문자열 유사도를 기반으로 가중치를 부여하여 가장 높은 점수의 답변을 선택합니다.
+
+**앙상블 통계**:
+- 3개 모델 모두 일치: 51.00%
+- 2개 모델 일치: 31.33%
+- Hard voting과 Soft voting 차이: 약 7.17%의 케이스에서 다른 결과 도출
+
+## 주요 개선 사항
+
+### v3 (Curriculum Learning)
 1. **Passage 순서 랜덤화**: Position bias 제거
 2. **Hard Negative 품질 관리**: Score 기반 필터링
 3. **Tokenizer 일관성**: Reader 모델과 동일한 tokenizer 사용
 4. **Curriculum Learning**: 점진적 난이도 증가 (3 → 5 → 7 passages)
+
+### v4 (Ensemble)
+5. **Ensemble Voting 추가**: Hard Voting과 Soft Voting을 통한 다중 모델 앙상블
+   - Hard Voting: 다수결 투표 방식
+   - Soft Voting: 문자열 유사도 기반 가중치 투표
+   - 3개 모델 앙상블 시 51%의 완전 일치율 확인
 
 ## 데이터셋
 
