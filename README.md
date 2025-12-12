@@ -4,7 +4,7 @@
 
 ## 프로젝트 개요
 
-본 프로젝트는 Open-Domain Question Answering을 위해 Negative Passage를 활용한 한국어 MRC 모델 학습 시스템입니다.
+본 프로젝트는 Open-Domain Question Answering을 위해 Negative Passage를 활용한 한국어 MRC 모델 학습 시스템입니다. 
 
 ### 주요 특징
 
@@ -201,4 +201,5 @@ MIT License
 
 - [KorQuAD 1.0](https://korquad.github.io/)
 - [KLUE Benchmark](https://klue-benchmark.com/)
+
 
