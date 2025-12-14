@@ -6,11 +6,9 @@ from datasets import Dataset
 from tqdm.auto import tqdm
 from typing import List, Tuple, Union, Dict
 
-# retrieval_bm25와 retrieval_dense는 이미 import 되었다고 가정합니다.
 from retrieval.retrieval_bm25 import BM25Retrieval
 from retrieval.retrieval_dense import DenseRetrievalEnsemble
 
-# RRF 상수 K: 일반적으로 60을 사용하며, 순위 융합의 민감도를 조정합니다.
 RRF_K = 60 
 
 # =========================================================================
@@ -18,10 +16,6 @@ RRF_K = 60
 # =========================================================================
 
 class HybridRetrieval:
-    # (기존 HybridRetrieval 코드는 유지 - 생략)
-    # ... (생략) ...
-    # __init__, _normalize_scores, _get_relevant_doc (alpha 방식), retrieve, _retrieve_bulk 메서드는 원본과 동일하게 유지됩니다.
-    
     def __init__(
         self,
         tokenize_fn,
@@ -149,7 +143,6 @@ class HybridRetrievalRRF(HybridRetrieval):
     """
 
     def __init__(self, *args, **kwargs):
-        # 기존 HybridRetrieval의 초기화 로직을 그대로 사용 (BM25, Dense 모델 로드)
         super().__init__(*args, **kwargs)
 
     def _get_relevant_doc(self, query: str, k: int) -> Tuple[List[float], List[int]]:
@@ -167,8 +160,6 @@ class HybridRetrievalRRF(HybridRetrieval):
         dense_indices = np.argsort(dense_all_scores)[::-1]
         
         # 3) RRF 점수 계산을 위한 순위 맵 생성
-        # Ranks dictionary: {doc_id: RRF_Score}
-        # 순위는 1부터 시작합니다. (rank = index + 1)
         rrf_scores: Dict[int, float] = {}
 
         # BM25 순위 기여

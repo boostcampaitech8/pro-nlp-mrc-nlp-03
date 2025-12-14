@@ -10,7 +10,6 @@ from tqdm.auto import tqdm
 from sentence_transformers import SentenceTransformer
 
 
-# 💡 [추가] 모델별 Prefix를 관리하는 헬퍼 함수
 def get_prefix(model_name: str, is_query: bool) -> str:
     """
     BGE, E5 계열 모델에만 'query:' 또는 'passage:' prefix를 적용합니다.
@@ -125,7 +124,6 @@ class DenseRetrievalEnsemble:
         """
         all_q_embs = []
         
-        # 💡 [수정] 모델별로 다른 prefix를 적용하여 쿼리 인코딩
         for i, model in enumerate(self.models):
             model_name = self.model_names[i]
             prefix = get_prefix(model_name, is_query=True)

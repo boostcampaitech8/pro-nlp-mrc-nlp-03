@@ -26,7 +26,6 @@ class HybridRetrievalRerankRRF(RRFHybridRetrieval):
         self,
         *args,
         use_rerank: bool = True,
-        # 💡 [수정] Reranker 모델 기본값을 Qwen으로 변경
         rerank_model_name: str = "Dongjin-kr/ko-reranker", 
         rerank_candidate_k: int = 20,   # RRF Hybrid에서 먼저 뽑을 개수
         device: str = None,
@@ -51,9 +50,6 @@ class HybridRetrievalRerankRRF(RRFHybridRetrieval):
             # 토크나이저 로드
             self.rerank_tokenizer = HfAutoTokenizer.from_pretrained(rerank_model_name)
             
-            # 🚨 [핵심 수정] Qwen 모델의 'pad_token' 부재 에러 (ValueError) 해결
-            # Qwen은 pad_token이 명시되어 있지 않아, 배치 사이즈 > 1일 때 에러 발생.
-            # 일반적으로 Qwen 계열은 eos_token을 pad_token으로 사용합니다.
             if self.rerank_tokenizer.pad_token is None:
                 self.rerank_tokenizer.pad_token = self.rerank_tokenizer.eos_token
                 print(f"   [Rerank Tokenizer] Set pad_token to eos_token: {self.rerank_tokenizer.pad_token}")

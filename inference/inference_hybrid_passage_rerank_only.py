@@ -123,7 +123,6 @@ def run_hybrid_retrieval_passage_rerank(
         datasets["validation"], topk=data_args.top_k_retrieval   # 최종 top-k (ex. 5)
     )
     
-    # 🚨 [핵심 수정] do_predict 모드일 경우, DataFrame에서 answers 컬럼을 삭제합니다.
     if training_args.do_predict and 'answers' in df.columns:
         df = df.drop(columns=['answers'])
         # original_context도 필요 없는 경우 삭제 (필요 여부에 따라 선택)
