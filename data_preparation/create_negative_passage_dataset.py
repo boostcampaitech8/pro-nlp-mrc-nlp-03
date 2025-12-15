@@ -213,6 +213,12 @@ class NegativePassageDatasetCreator:
                         break
 
             # 3단계: Final passages 구성
+            # =========================== CODE REVIEW REQUEST ===========================
+            # Review focus:
+            # 1) Retrieval 결과에 정답이 포함된 경우 vs 포함되지 않은 경우의 분기 처리 설계
+            # 2) 정답 passage를 negative passage들과 재구성하는 방식의 학습 타당성
+            # 3) answer position randomization이 position bias 완화에 효과적인지
+            # ===========================================================================
             if answer_passage_idx is not None:
                 # 정답이 포함된 passage가 검색된 경우
                 answer_found_stats["found"] += 1
