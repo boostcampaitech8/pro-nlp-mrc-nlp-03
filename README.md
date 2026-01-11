@@ -66,7 +66,7 @@
 ## 👼 역할 분담
 
 | 이름   | 역할                                                                                                          |
-| ------ | ------------------------------------------------------------------------------------------------------------ |
+| :---: | ------------------------------------------------------------------------------------------------------------ |
 | 김윤희 | 데이터 EDA, Hybrid Retrieval(BM25+Dense) 설계 및 구현, Reader Fine-tuning, 앙상블 전략 수립 |
 | 박서진 | Dense Retrieval 실험 및 모델(BGE-M3 등) 선정, Retrieval 파인튜닝 실험, 데이터 전처리 |
 | 곽나영 | 데이터 전처리 파이프라인 구축, Hybrid Retrieval 구현 및 성능 최적화, Retrieval Fine-tuning |
@@ -127,13 +127,13 @@ korean-mrc-negative-passage/
     └── analy
 ```
 
-## 설치
+## 💻 설치
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## 사용법
+## ⚙️ 사용법
 
 ### 0. Wikipedia documents → passage corpus 생성
 ```bash
@@ -246,6 +246,7 @@ python -m inference.inference_hybrid_passage_rerank_only \
 - [Reciprocal Rank Fusion (RRF)](https://plg.uwaterloo.ca/~gvcormac/cormack-sigir09-rrf.pdf) - 서로 다른 검색 결과(Sparse & Dense)를 효과적으로 통합하는 순위 산정 기법
 - [Curriculum Learning](https://ronan.collobert.com/pub/matos/2009_curriculum_icml.pdf) - 학습 데이터의 난이도를 점진적으로 높여 모델 성능을 최적화하는 전략
 - [Dense Passage Retrieval (DPR)](https://arxiv.org/abs/2004.04906) - 듀얼 인코더 구조를 활용한 의미론적 문서 검색 프레임워크
+
 
 
 
