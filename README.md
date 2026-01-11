@@ -14,10 +14,10 @@
 |  평가 지표  | Exact Match (EM) - 정답 완전 일치 여부 (메인 지표), F1 Score                                                                                                   |
 
 ## 🎖️ Leader Board
-### Priavate Leader Board (10위)
+### Priavate Leader Board (6위)
 <img width="1216" alt="image" src="./assets/private_rank.png">
 
-### Public Leader Board (6위)
+### Public Leader Board (10위)
 <img width="1216" alt="image" src="./assets/public_rank.png">
 
 ## 👨‍💻 Contributors
@@ -246,5 +246,6 @@ python -m inference.inference_hybrid_passage_rerank_only \
 - [Reciprocal Rank Fusion (RRF)](https://plg.uwaterloo.ca/~gvcormac/cormack-sigir09-rrf.pdf) - 서로 다른 검색 결과(Sparse & Dense)를 효과적으로 통합하는 순위 산정 기법
 - [Curriculum Learning](https://ronan.collobert.com/pub/matos/2009_curriculum_icml.pdf) - 학습 데이터의 난이도를 점진적으로 높여 모델 성능을 최적화하는 전략
 - [Dense Passage Retrieval (DPR)](https://arxiv.org/abs/2004.04906) - 듀얼 인코더 구조를 활용한 의미론적 문서 검색 프레임워크
+
 
 
