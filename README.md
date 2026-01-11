@@ -1,30 +1,105 @@
-# Korean MRC with Negative Passage Training
+<div align='center'>
 
-한국어 기계독해(MRC)를 위한 Negative Passage 학습 시스템
+# 🏆 NLP Project : Open-Domain Question Answering
+</div>
 
-## 프로젝트 개요
+## ✏️ 대회 소개
 
-본 프로젝트는 Open-Domain Question Answering을 위해 Negative Passage를 활용한 한국어 MRC 모델 학습 시스템입니다. 
+|   특징     | 설명                                                                                                                          |
+| :---------: | ---------------------------------------------------------------------------------------------------------------------------- |
+|  대회 주제  | 네이버 부스트캠프 AI-Tech 8기 NLP 트랙의 Open-Domain Question Answering (ODQA) 대회                                           |
+|  대회 설명  | 질문에 대해 방대한 지문(Corpus)에서 관련 문서를 찾아내고(Retriever), 정답을 추론(Reader)하는 시스템 구축 |
+|  진행 기간  | 2025년 12월 3일 ~ 2025년 12월 11일                                                         |
+| 데이터 구성 | Wikipedia Passage (60,613개), KorQuAD v1/v2 학습 데이터          |
+|  평가 지표  | Exact Match (EM) - 정답 완전 일치 여부 (메인 지표), F1 Score                                                                                                   |
+
+## 🎖️ Leader Board
+
+### 🥈 Final Results
+*최종 앙상블 모델 기준 성적*
+
+- **Public EM**: 71.25% (F1 80.87%)
+- **Private EM**: 68.89% (F1 80.60%)
+
+## 👨‍💻 Contributors
+
+<table align='center'>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/choijunho-AIDeveloper.png" alt="최준호" width="100" height="100" style="border-radius: 50%;"/><br>
+      <a href="https://github.com/choijunho-AIDeveloper">
+        <img src="https://img.shields.io/badge/최준호-grey?style=for-the-badge&logo=github" alt="badge 최준호"/>
+      </a>
+    </td>
+    <td align="center">
+      <img src="https://github.com/kyunhui.png" alt="김윤희" width="100" height="100" style="border-radius: 50%;"/><br>
+      <a href="https://github.com/kyunhui">
+        <img src="https://img.shields.io/badge/김윤희-grey?style=for-the-badge&logo=github" alt="badge 김윤희"/>
+      </a>
+    </td>
+    <td align="center">
+      <img src="https://github.com/Parkseojin2001.png" alt="박서진" width="100" height="100" style="border-radius: 50%;"/><br>
+      <a href="https://github.com/Parkseojin2001">
+        <img src="https://img.shields.io/badge/박서진-grey?style=for-the-badge&logo=github" alt="badge 박서진"/>
+      </a>
+    </td>
+    <td align="center">
+      <img src="https://github.com/shihtzu-918.png" alt="곽나영" width="100" height="100" style="border-radius: 50%;"/><br>
+      <a href="https://github.com/shihtzu-918">
+        <img src="https://img.shields.io/badge/곽나영-grey?style=for-the-badge&logo=github" alt="badge 곽나영"/>
+      </a>
+    </td>
+    <td align="center">
+      <img src="https://github.com/2sseul.png" alt="김이슬" width="100" height="100" style="border-radius: 50%;"/><br>
+      <a href="https://github.com/2sseul">
+        <img src="https://img.shields.io/badge/김이슬-grey?style=for-the-badge&logo=github" alt="badge 김이슬"/>
+      </a>
+    </td>
+    <td align="center">
+      <img src="https://github.com/hyejinw.png" alt="우혜진" width="100" height="100" style="border-radius: 50%;"/><br>
+      <a href="https://github.com/hyejinw">
+        <img src="https://img.shields.io/badge/우혜진-grey?style=for-the-badge&logo=github" alt="badge 우혜진"/>
+      </a>
+    </td>
+  </tr>
+</table>
+
+## 👼 역할 분담
+
+| 이름   | 역할                                                                                                          |
+| ------ | ------------------------------------------------------------------------------------------------------------ |
+| 김윤희 | 데이터 EDA, Hybrid Retrieval(BM25+Dense) 설계 및 구현, Reader Fine-tuning, 앙상블 전략 수립 |
+| 박서진 | Dense Retrieval 실험 및 모델(BGE-M3 등) 선정, Retrieval 파인튜닝 실험, 데이터 전처리 |
+| 곽나영 | 데이터 전처리 파이프라인 구축, Hybrid Retrieval 구현 및 성능 최적화, Retrieval Fine-tuning |
+| 김이슬 | KorQuAD 2.0 데이터 전처리 및 증강, ElasticSearch 기반 Retrieval 구현 및 실험 |
+| 우혜진 | BM25 기반 Sparse Retrieval 구현, Reader 모델 개선(Negative Passage, Curriculum Learning), Qwen3 실험 |
+| 최준호 | Curriculum Learning 난이도 지표(Embedding+Position) 구성 및 모델 학습, 앙상블(Soft/Hard Voting) 구현 |
+
+## ✍🏻 프로젝트 개요
+
+본 프로젝트는 수만 개의 위키피디아 지문 중 질문에 적합한 정보를 찾아 정확한 답을 내놓는 **ODQA 시스템**의 성능을 극대화하는 것을 목표로 합니다. 단순 검색을 넘어 의미론적 유사도와 학습 난이도를 조절하는 고도화된 전략을 사용했습니다.
 
 ### 주요 특징
 
-- **Passage Indexing**: Wikipedia 문서를 Dense Encoder (BAAI/bge-m3) 토크나이저 기준 256 token / stride 128로 chunking하여 passage 단위로 인덱싱
-- **Hybrid Retrieval**: BM25 + Dense Retrieval (BAAI/bge-m3) + Cross-Encoder Rerank
-- **Negative Passage Training**: 정답이 포함되지 않은 passage를 함께 학습하여 모델 강건성 향상
-- **Curriculum Learning**: Easy → Medium → Hard 단계별 학습
-- **Position Bias 제거**: Passage 순서 랜덤화
-- **Ensemble Voting**: Hard/Soft Voting을 통한 다중 모델 앙상블 지원
+- **Hybrid Retrieval & Reranking**: 
+  - **BM25**(Sparse)와 **BGE-M3**(Dense)를 결합하여 키워드와 의미를 동시에 포착
+  - **RRF(Reciprocal Rank Fusion)**를 통한 안정적인 순위 통합 및 **Cross-Encoder Reranker**로 상위 문서 재정렬
+- **Reader Optimization**: 
+  - **Negative Passage Training**: 정답이 없는 오답 지문을 학습에 포함하여 모델의 변별력 강화
+  - **Curriculum Learning**: Passage 개수와 정답 위치 정보를 활용해 Easy → Medium → Hard 순으로 단계적 학습 수행
+- **Robustness**: 
+  - Stride(128)를 적용한 Passage Chunking으로 문맥 손실 최소화
+  - Position Bias 완화를 위해 정답 위치 랜덤화 적용
+- **Ensemble Strategy**: 문자열 유사도 기반의 **Soft Voting**을 통해 개별 모델의 오답을 상호 보완
 
-### 성능
+### 📃 시스템 아키텍처
 
-| 모델 | Exact Match | F1 Score |
-|------|-------------|----------|
-| Baseline (v1) | 60.00% | 70.97% |
-| Negative Passage (v2) | 64.58% | 76.09% |
-| Curriculum Learning (v3) | **70.42%** | **78.17%** |
+1. **Retrieval**: BM25(0.7) + BGE-M3(0.3) Hybrid Search → RRF 통합
+2. **Rerank**: Cross-Encoder를 통한 Top-20 재순위화
+3. **Reader**: RoBERTa-large 기반 Extractive QA (Curriculum Learning 적용)
+4. **Ensemble**: 다수 모델 결과에 대한 Soft/Hard Voting 수행
 
-## 폴더 구조
-
+## 📁 폴더 구조
 ```
 korean-mrc-negative-passage/
 ├── data_preparation/          # 데이터셋 생성
@@ -52,7 +127,7 @@ korean-mrc-negative-passage/
 │   └── create_negative_passage.sh
 └── analysis/                  # 분석 도구
     ├── compare_predictions.py
-    └── analyze_dataset.py
+    └── analy
 ```
 
 ## 설치
@@ -156,52 +231,21 @@ python -m inference.inference_hybrid_passage_rerank_only \
     --output_dir ../outputs/predictions
 ```
 
-### 4. 앙상블 (Ensemble Voting)
+## 🔗 참고자료
 
-**Hard Voting**: 다수결 투표 방식으로 가장 많이 예측된 답변을 선택
+### 📂 Datasets
+- [KorQuAD 1.0](https://korquad.github.io/KorQuAD1.0/) - 한국어 질의응답 데이터셋 (주요 학습/검증 데이터)
+- [KorQuAD 2.0](https://korquad.github.io/) - 대규모 한국어 질의응답 데이터셋 (데이터 증강 및 외부 데이터 활용)
+- [KLUE Benchmark](https://klue-benchmark.com/) - 한국어 자연어 이해 평가 표준 데이터셋
 
-**Soft Voting**: 문자열 유사도를 기반으로 가중치를 부여하여 가장 높은 점수의 답변을 선택
+### 🤖 Models & Libraries
+- [KLUE-RoBERTa (Reader)](https://huggingface.co/klue/roberta-large) - Reader 베이스 모델로 활용된 klue/roberta-large
+- [BGE-M3 (Retrieval)](https://huggingface.co/BAAI/bge-m3) - 다국어 지원 및 하이브리드 검색이 가능한 고성능 임베딩 모델
+- [Ko-Reranker](https://huggingface.co/Dongjin-kr/ko-reranker) - 검색 결과의 정밀도를 높이기 위한 한국어 전용 Cross-Encoder 모델
+- [Rank-BM25](https://github.com/dorianbrown/rank_bm25) - 키워드 기반 Sparse Retrieval 구현을 위한 알고리즘 라이브러리
+- [FAISS](https://github.com/facebookresearch/faiss) - 대규모 Dense Vector 검색을 위한 Facebook AI Research의 고성능 라이브러리
 
-**앙상블 통계**:
-- 3개 모델 모두 일치: 70.17%
-- 2개 모델 일치: 26.50%
-- Hard voting과 Soft voting 차이: 약 3.33%의 케이스에서 다른 결과 도출
-
-## 주요 개선 사항
-
-### v3 (Curriculum Learning)
-1. **Passage 순서 랜덤화**: Position bias 제거
-2. **Hard Negative 품질 관리**: Score 기반 필터링
-3. **Tokenizer 일관성**: Reader 모델과 동일한 tokenizer 사용
-4. **Curriculum Learning**: 점진적 난이도 증가 (3 → 5 → 7 passages)
-
-### v4 (Ensemble)
-5. **Ensemble Voting 추가**: Hard Voting과 Soft Voting을 통한 다중 모델 앙상블
-   - Hard Voting: 다수결 투표 방식
-   - Soft Voting: 문자열 유사도 기반 가중치 투표
-   - 3개 모델 앙상블 시 70%의 완전 일치율 확인
-
-## 데이터셋
-
-- **학습 데이터**: KorQuAD 1.0 (3,952 examples)
-- **검증 데이터**: 240 examples
-- **Wikipedia Passages**: bge-m3 tokenizer 기준 256 token / stride 128 chunk
-
-## 모델
-
-- **Reader**: HANTAEK/klue-roberta-large-korquad-v1-qa-finetuned
-- **Dense Retrieval**: BAAI/bge-m3
-- **Reranker**: Dongjin-kr/ko-reranker
-
-## 라이선스
-
-MIT License
-
-## 참고자료
-
-- [KorQuAD 1.0](https://korquad.github.io/)
-- [KLUE Benchmark](https://klue-benchmark.com/)
-
-
-
-
+### 📄 Papers & Technical Concepts
+- [Reciprocal Rank Fusion (RRF)](https://plg.uwaterloo.ca/~gvcormac/cormack-sigir09-rrf.pdf) - 서로 다른 검색 결과(Sparse & Dense)를 효과적으로 통합하는 순위 산정 기법
+- [Curriculum Learning](https://ronan.collobert.com/pub/matos/2009_curriculum_icml.pdf) - 학습 데이터의 난이도를 점진적으로 높여 모델 성능을 최적화하는 전략
+- [Dense Passage Retrieval (DPR)](https://arxiv.org/abs/2004.04906) - 듀얼 인코더 구조를 활용한 의미론적 문서 검색 프레임워크
